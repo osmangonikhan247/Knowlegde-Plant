@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - KnowledgePlant</title>
+    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="icon" href="kp.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+   <header>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo"> 
+                <h1>KnowledgePlant</h1>
+            </div>
+            <nav class="site-links">
+                <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-leaf"></i> Plants <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Plant Categories</h4>
+                            <a href="plant.html">All Plants</a>
+                            <a href="gallery.html?filter=Plants">Indoor Plants</a>
+                            <a href="gallery.html?filter=Plants">Outdoor Plants</a>
+                            <a href="gallery.html?filter=Flowers">Flowers</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-apple-alt"></i> Fruits <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Fruit Categories</h4>
+                            <a href="mango.html">All Fruits</a>
+                            <a href="gallery.html?filter=Fruits">Seasonal Fruits</a>
+                            <a href="gallery.html?filter=Fruits">Tropical Fruits</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-book"></i> Books <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Book Categories</h4>
+                            <a href="gallery.html?filter=Books">Gardening Books</a>
+                            <a href="gallery.html?filter=Books">Educational Books</a>
+                            <a href="gallery.html?filter=Books">Plant Care Guides</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="gallery.html"><i class="fas fa-images"></i> Gallery</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+            </nav>
+            <div class="user-actions">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search for plants, books, fruits...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <a href="signin.html" class="user-link"><i class="fas fa-user"></i> Sign In</a>
+                <a href="billing.html" class="cart-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cartCount" class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Secondary Navigation -->
+        <div class="secondary-nav">
+            <div class="nav-links">
+                <a href="#deals">Today's Deals</a>
+                <a href="#new">New Arrivals</a>
+                <a href="#bestsellers">Best Sellers</a>
+                <a href="#customer-service">Customer Service</a>
+                <a href="#gift-cards">Gift Cards</a>
+                <a href="#sell">Sell</a>
+                <a href="#registry">Registry</a>
+            </div>
+        </div>
+    </div>
+  </header>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Join KnowledgePlant</h1>
+                <p>Create your account and start shopping</p>
+            </div>
+            <div class="auth-form">
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Create a password (min 6 characters)" minlength="6" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+                    </div>
+                    <button type="submit" class="auth-btn">Create Account</button>
+                </form>
+
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+
+                <div class="social-auth">
+                    <button class="social-btn google">
+                        <i class="fab fa-google"></i>
+                        Sign up with Google
+                    </button>
+                    <button class="social-btn facebook">
+                        <i class="fab fa-facebook-f"></i>
+                        Sign up with Facebook
+                    </button>
+                </div>
+
+                <div class="auth-links">
+                    <p>Already have an account? <a href="signin.html">Sign in</a></p>
+                </div>
+            </div>
+            <div class="auth-footer">
+                <p>By creating an account, you agree to our <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const signupForm = document.getElementById('signupForm');
+
+            signupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+
+                // Validation
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match. Please try again.');
+                    return;
+                }
+
+                if (password.length < 6) {
+                    alert('Password must be at least 6 characters long.');
+                    return;
+                }
+
+                // Get existing users
+                const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+                // Check if email already exists
+                const existingUser = users.find(u => u.email === email);
+                if (existingUser) {
+                    alert('An account with this email already exists. Please sign in instead.');
+                    return;
+                }
+
+                // Create new user
+                const newUser = {
+                    id: Date.now(),
+                    name: name,
+                    email: email,
+                    phone: phone,
+                    password: password,
+                    createdAt: new Date().toISOString(),
+                    joinDate: new Date().toISOString()
+                };
+
+                // Save user
+                users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(users));
+
+                // Save user for admin access as well
+                const allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+                allUsers.push(newUser);
+                localStorage.setItem('allUsers', JSON.stringify(allUsers));
+
+                // Auto sign in
+                localStorage.setItem('currentUser', JSON.stringify({
+                    id: newUser.id,
+                    name: newUser.name,
+                    email: newUser.email
+                }));
+
+                alert('Account created successfully! Welcome to KnowledgePlant, ' + name);
+                window.location.href = 'index.html';
+            });
+        });
+    </script>
+   <footer class="footer">
+      <div>
+        <h2>CONTACT US</h2>
+        <p>Aysha Siddika<br>2232871262042<br>ayesha@cse.edu.bd<br>016********</p>
+      </div>
+      <div>
+        <h2>Information</h2>
+        <ul>
+          <li>About Us</li>
+          <li>Privacy Policy</li>
+          <li>Terms & Conditions</li>
+          <li>FAQ</li>
+        </ul>
+      </div>
+      <div>
+        <h2>INFORMATION</h2>
+        <p>We simply love plants and all the benefits they bring to us, our workplace, home, and the environment.</p>
+      </div>
+      <div>
+        <h2>CONNECT WITH US</h2>
+        <p>Bkash, Nagad, Rocket, COD<br>All Banking</p>
+      </div>
+    </footer>
+  <script src="script.js"></script>
+</body>
+</html>

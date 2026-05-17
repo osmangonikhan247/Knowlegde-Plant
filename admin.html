@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - KnowledgePlant</title>
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="icon" href="kp.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="admin-body">
+    <header class="admin-header">
+        <div class="admin-navbar">
+            <div class="admin-logo">
+                <h1><i class="fas fa-cog"></i> KnowledgePlant Admin</h1>
+            </div>
+            <div class="admin-user-actions">
+                <span id="adminUserName" class="admin-user-name">Admin</span>
+                <a href="#" onclick="adminLogout()" class="btn-danger">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <nav class="admin-menu">
+                <a href="#dashboard" class="admin-menu-item active" onclick="switchAdminTab('dashboard')">
+                    <i class="fas fa-chart-line"></i> Dashboard
+                </a>
+                <a href="#products" class="admin-menu-item" onclick="switchAdminTab('products')">
+                    <i class="fas fa-box"></i> Products
+                </a>
+                <a href="#orders" class="admin-menu-item" onclick="switchAdminTab('orders')">
+                    <i class="fas fa-receipt"></i> Orders
+                </a>
+                <a href="#users" class="admin-menu-item" onclick="switchAdminTab('users')">
+                    <i class="fas fa-users"></i> Users
+                </a>
+                <a href="#messages" class="admin-menu-item" onclick="switchAdminTab('messages')">
+                    <i class="fas fa-envelope"></i> Messages
+                </a>
+                <a href="#analytics" class="admin-menu-item" onclick="switchAdminTab('analytics')">
+                    <i class="fas fa-chart-pie"></i> Analytics
+                </a>
+                <a href="#settings" class="admin-menu-item" onclick="switchAdminTab('settings')">
+                    <i class="fas fa-sliders-h"></i> Settings
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-content">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="admin-tab active">
+                <div class="admin-section">
+                    <h2>Dashboard</h2>
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <i class="fas fa-shopping-bag"></i>
+                            <div class="stat-info">
+                                <h3 id="totalOrders">0</h3>
+                                <p>Total Orders</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-users"></i>
+                            <div class="stat-info">
+                                <h3 id="totalUsers">0</h3>
+                                <p>Total Users</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-box"></i>
+                            <div class="stat-info">
+                                <h3 id="totalProducts">0</h3>
+                                <p>Total Products</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-dollar-sign"></i>
+                            <div class="stat-info">
+                                <h3 id="totalRevenue">৳0</h3>
+                                <p>Total Revenue</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Tab -->
+            <div id="products" class="admin-tab">
+                <div class="admin-section">
+                    <div class="section-header">
+                        <h2>Products Management</h2>
+                        <button class="btn-primary" onclick="showAddProductForm()">Add Product</button>
+                    </div>
+
+                    <!-- Add Product Form -->
+                    <div id="productForm" class="admin-form" style="display: none;">
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input type="text" id="productName" placeholder="Enter product name">
+                        </div>
+                        <div class="form-group">
+                            <label>Price (৳)</label>
+                            <input type="number" id="productPrice" placeholder="Enter price">
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="productCategory">
+                                <option value="Plants">Plants</option>
+                                <option value="Fruits">Fruits</option>
+                                <option value="Books">Books</option>
+                                <option value="Flowers">Flowers</option>
+                                <option value="Seeds">Seeds</option>
+                                <option value="Services">Services</option>
+                                <option value="Decoration">Decoration</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="productDescription" placeholder="Enter product description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Rating</label>
+                            <input type="number" id="productRating" min="0" max="5" step="0.1" placeholder="Enter rating">
+                        </div>
+                        <div class="form-group">
+                            <label>Image URL</label>
+                            <input type="text" id="productImage" placeholder="Enter image URL">
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-primary" onclick="saveProduct()">Save Product</button>
+                            <button class="btn-secondary" onclick="cancelProductForm()">Cancel</button>
+                        </div>
+                    </div>
+
+                    <!-- Products List -->
+                    <div class="products-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Rating</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody">
+                                <tr><td colspan="6">Loading products...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Tab -->
+            <div id="orders" class="admin-tab">
+                <div class="admin-section">
+                    <h2>Orders Management</h2>
+                    <div class="orders-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Email</th>
+                                    <th>Date</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTableBody">
+                                <tr><td colspan="7">No orders yet</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Order Details Modal -->
+                    <div id="orderDetailsModal" class="modal" style="display: none;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>Order Details</h3>
+                                <span class="close" onclick="closeOrderModal()">&times;</span>
+                            </div>
+                            <div id="orderDetailsContent" class="modal-body">
+                                <!-- Order details will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="userDetailsModal" class="modal" style="display: none;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h3>User Details</h3>
+                                <span class="close" onclick="closeUserModal()">&times;</span>
+                            </div>
+                            <div id="userDetailsContent" class="modal-body">
+                                <!-- User details will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Tab -->
+            <div id="users" class="admin-tab">
+                <div class="admin-section">
+                    <h2>Users Management</h2>
+                    <div class="users-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Join Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTableBody">
+                                <tr><td colspan="6">No users registered yet</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="userDetailsPanel" class="user-details-panel" style="display: none;">
+                        <h3>User Information</h3>
+                        <div id="userDetailsCard" class="user-details-card"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Messages Tab -->
+            <div id="messages" class="admin-tab">
+                <div class="admin-section">
+                    <h2>Contact Messages</h2>
+                    <div class="messages-container">
+                        <div id="messagesList" class="messages-list">
+                            <div class="message-item">
+                                <div class="message-header">
+                                    <h4>No messages yet</h4>
+                                    <span class="message-date">-</span>
+                                </div>
+                                <div class="message-content">
+                                    <p>Contact messages from users will appear here.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div id="analytics" class="admin-tab">
+                <div class="admin-section">
+                    <h2>Analytics & Reports</h2>
+                    <div class="analytics-container">
+                        <div class="analytics-card">
+                            <h3>Total Orders</h3>
+                            <div class="analytics-value" id="analyticsOrders">0</div>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>Total Revenue</h3>
+                            <div class="analytics-value" id="analyticsRevenue">৳0</div>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>Total Users</h3>
+                            <div class="analytics-value" id="analyticsUsers">0</div>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>Order Status</h3>
+                            <div class="status-breakdown">
+                                <div class="status-item">
+                                    <span>Pending:</span>
+                                    <span id="pendingOrders">0</span>
+                                </div>
+                                <div class="status-item">
+                                    <span>Processing:</span>
+                                    <span id="processingOrders">0</span>
+                                </div>
+                                <div class="status-item">
+                                    <span>Shipped:</span>
+                                    <span id="shippedOrders">0</span>
+                                </div>
+                                <div class="status-item">
+                                    <span>Delivered:</span>
+                                    <span id="deliveredOrders">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings" class="admin-tab">
+                <div class="admin-section">
+                    <h2>Admin Settings</h2>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label for="siteName">Site Name</label>
+                            <input type="text" id="siteName" value="KnowledgePlant" placeholder="Site name">
+                        </div>
+                        <div class="form-group">
+                            <label for="siteEmail">Site Email</label>
+                            <input type="email" id="siteEmail" value="admin@knowledgeplant.bd" placeholder="Site email">
+                        </div>
+                        <div class="form-group">
+                            <label for="sitePhone">Site Phone</label>
+                            <input type="tel" id="sitePhone" value="2232871262042" placeholder="Site phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="maintenanceMode">
+                                <input type="checkbox" id="maintenanceMode">
+                                Enable Maintenance Mode
+                            </label>
+                        </div>
+                        <div class="form-actions">
+                            <button class="btn-primary" onclick="saveSettings()">Save Settings</button>
+                            <button class="btn-secondary" onclick="resetSettings()">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- KEEPING YOUR EXTERNAL SCRIPT -->
+    <script src="script.js"></script>
+    
+    <script>
+        // Initialize admin panel
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                console.log('Admin page loaded, checking access...');
+                checkAdminAccess();
+                console.log('Loading admin dashboard...');
+                loadAdminDashboard();
+                console.log('Admin initialization complete');
+            } catch (error) {
+                console.error('Error during admin page initialization:', error);
+                alert('An error occurred while loading the admin page. Please check the console for details.');
+            }
+        });
+
+        // Check admin access
+        function checkAdminAccess() {
+            console.log('Checking admin access...');
+            // Assumes getCurrentUser() is defined in your script.js
+            if (typeof getCurrentUser === 'function') {
+                const user = getCurrentUser();
+                console.log('Current user:', user);
+
+                if (!user) {
+                    console.log('No user found, redirecting to signin');
+                    alert('Access denied! Please sign in first.');
+                    window.location.href = 'signin.html';
+                    return;
+                }
+
+                // For testing purposes, allow any signed-in user
+                console.log('User accessing admin:', user.email);
+                document.getElementById('adminUserName').textContent = user.name + ' (Admin)';
+                console.log('Admin access granted');
+            } else {
+                console.warn('getCurrentUser function not found. Skipping auth check.');
+            }
+        }
+
+        // Switch admin tabs
+        function switchAdminTab(tabName) {
+            try {
+                console.log('Switching to tab:', tabName);
+                // Hide all tabs
+                const tabs = document.querySelectorAll('.admin-tab');
+                tabs.forEach(tab => tab.classList.remove('active'));
+
+                // Remove active class from all menu items
+                const menuItems = document.querySelectorAll('.admin-menu-item');
+                menuItems.forEach(item => item.classList.remove('active'));
+
+                // Show selected tab
+                const selectedTab = document.getElementById(tabName);
+                if (selectedTab) {
+                    selectedTab.classList.add('active');
+                } else {
+                    console.error('Tab not found:', tabName);
+                }
+
+                // Add active class to clicked menu item
+                const clickedItem = document.querySelector(`[onclick="switchAdminTab('${tabName}')"]`);
+                if (clickedItem) {
+                    clickedItem.classList.add('active');
+                }
+
+                // Load tab-specific data
+                if (tabName === 'products') {
+                    loadProductsList();
+                } else if (tabName === 'orders') {
+                    loadOrdersList();
+                } else if (tabName === 'users') {
+                    loadUsersList();
+                } else if (tabName === 'analytics') {
+                    loadAnalytics();
+                } else if (tabName === 'messages') {
+                    loadMessagesList();
+                } else if (tabName === 'dashboard') {
+                    loadAdminDashboard();
+                }
+
+                console.log('Tab switched successfully to:', tabName);
+            } catch (error) {
+                console.error('Error switching tab:', error);
+            }
+        }
+
+        // Load admin dashboard
+        function loadAdminDashboard() {
+            try {
+                const orders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+                const users = JSON.parse(localStorage.getItem('allUsers') || '[]');
+                const products = (typeof sampleProducts !== 'undefined') ? sampleProducts : [];
+
+                let totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
+
+                document.getElementById('totalOrders').textContent = orders.length;
+                document.getElementById('totalUsers').textContent = users.length;
+                document.getElementById('totalProducts').textContent = products.length;
+                document.getElementById('totalRevenue').textContent = '৳' + totalRevenue.toLocaleString();
+
+                console.log('Dashboard loaded successfully');
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        // Products Management
+        function showAddProductForm() {
+            document.getElementById('productForm').style.display = 'block';
+        }
+
+        function cancelProductForm() {
+            document.getElementById('productForm').style.display = 'none';
+            document.getElementById('productName').value = '';
+            document.getElementById('productPrice').value = '';
+            document.getElementById('productDescription').value = '';
+            document.getElementById('productRating').value = '';
+            document.getElementById('productImage').value = '';
+        }
+
+        function saveProduct() {
+            if (typeof sampleProducts === 'undefined') {
+                alert('Error: sampleProducts array is not defined.');
+                return;
+            }
+
+            const product = {
+                id: sampleProducts.length + 1,
+                name: document.getElementById('productName').value,
+                price: parseFloat(document.getElementById('productPrice').value),
+                category: document.getElementById('productCategory').value,
+                description: document.getElementById('productDescription').value,
+                rating: parseFloat(document.getElementById('productRating').value),
+                image: document.getElementById('productImage').value
+            };
+
+            if (!product.name || !product.price) {
+                alert('Please fill all required fields');
+                return;
+            }
+
+            sampleProducts.push(product);
+            alert('Product added successfully!');
+            cancelProductForm();
+            loadProductsList();
+            loadAdminDashboard();
+        }
+
+        function loadProductsList() {
+            try {
+                const tbody = document.getElementById('productsTableBody');
+                const products = (typeof sampleProducts !== 'undefined') ? sampleProducts : [];
+
+                if (products.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6">No products found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = products.map(product => `
+                    <tr>
+                        <td>#${product.id}</td>
+                        <td>${product.name}</td>
+                        <td><span class="badge">${product.category}</span></td>
+                        <td>৳ ${product.price}</td>
+                        <td><span class="rating-badge">${product.rating || 'N/A'}</span></td>
+                        <td>
+                            <button class="btn-sm btn-secondary" onclick="editProduct(${product.id})">Edit</button>
+                            <button class="btn-sm btn-danger" onclick="deleteProduct(${product.id})">Delete</button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                console.log('Products list loaded successfully');
+            } catch (error) {
+                console.error('Error loading products list:', error);
+            }
+        }
+
+        function editProduct(productId) {
+            alert('Edit product functionality coming soon!');
+        }
+
+        function deleteProduct(productId) {
+            if (typeof sampleProducts === 'undefined') return;
+            if (confirm('Are you sure you want to delete this product?')) {
+                const index = sampleProducts.findIndex(p => p.id === productId);
+                if (index > -1) {
+                    sampleProducts.splice(index, 1);
+                    alert('Product deleted successfully!');
+                    loadProductsList();
+                    loadAdminDashboard();
+                }
+            }
+        }
+
+        // Orders Management
+        function loadOrdersList() {
+            try {
+                const tbody = document.getElementById('ordersTableBody');
+                const orders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+
+                if (orders.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6">No orders found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = orders.map(order => `
+                    <tr>
+                        <td>#${order.id}</td>
+                        <td>${order.customer?.name || order.customerName || 'N/A'}</td>
+                        <td>${order.customer?.email || order.customerEmail || 'N/A'}</td>
+                        <td>${new Date(order.date).toLocaleDateString()}</td>
+                        <td>৳ ${order.total.toFixed(2)}</td>
+                        <td>
+                            <select onchange="updateOrderStatusData('${order.id}', this.value)" class="status-select">
+                                <option value="Pending" ${order.status === 'Pending' ? 'selected' : ''}>Pending</option>
+                                <option value="Processing" ${order.status === 'Processing' ? 'selected' : ''}>Processing</option>
+                                <option value="Shipped" ${order.status === 'Shipped' ? 'selected' : ''}>Shipped</option>
+                                <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                                <option value="Cancelled" ${order.status === 'Cancelled' ? 'selected' : ''}>Cancelled</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button onclick="viewOrderDetails('${order.id}')" class="btn-small">View</button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                console.log('Orders list loaded successfully');
+            } catch (error) {
+                console.error('Error loading orders list:', error);
+            }
+        }
+
+        function updateOrderStatusData(orderId, newStatus) {
+            try {
+                const orders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+                const userOrders = JSON.parse(localStorage.getItem('userOrders') || '[]');
+
+                // Update in allOrders
+                const orderIndex = orders.findIndex(o => o.id === orderId);
+                if (orderIndex !== -1) {
+                    orders[orderIndex].status = newStatus;
+                    localStorage.setItem('allOrders', JSON.stringify(orders));
+                }
+
+                // Update in userOrders to sync with user account
+                const userOrderIndex = userOrders.findIndex(o => o.id === orderId);
+                if (userOrderIndex !== -1) {
+                    userOrders[userOrderIndex].status = newStatus;
+                    localStorage.setItem('userOrders', JSON.stringify(userOrders));
+                }
+
+                localStorage.setItem('allOrders', JSON.stringify(orders));
+                alert(`Order #${orderId} status updated to ${newStatus}`);
+                console.log(`Order ${orderId} status updated to ${newStatus}`);
+
+                loadOrdersList();
+                loadAdminDashboard();
+                loadAnalytics();
+            } catch (error) {
+                console.error('Error updating order status:', error);
+                alert('Error updating order status. Please try again.');
+            }
+        }
+
+        function viewOrderDetails(orderId) {
+            try {
+                const orders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+                const order = orders.find(o => o.id === orderId);
+
+                if (!order) {
+                    alert('Order not found!');
+                    return;
+                }
+
+                const modal = document.getElementById('orderDetailsModal');
+                const content = document.getElementById('orderDetailsContent');
+
+                content.innerHTML = `
+                    <div class="order-details">
+                        <div class="order-info">
+                            <h3>Order #${order.id}</h3>
+                            <p><strong>Date:</strong> ${new Date(order.date).toLocaleDateString()}</p>
+                            <p><strong>Status:</strong> <span class="status-badge ${order.status}">${order.status}</span></p>
+                        </div>
+
+                        <div class="customer-info">
+                            <h4>Customer Information</h4>
+                            <p><strong>Name:</strong> ${order.customer.name}</p>
+                            <p><strong>Email:</strong> ${order.customer.email}</p>
+                            <p><strong>Phone:</strong> ${order.customer.phone}</p>
+                            <p><strong>Address:</strong> ${order.customer.address}</p>
+                        </div>
+
+                        <div class="order-items">
+                            <h4>Order Items</h4>
+                            <table class="order-items-table" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Price</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${order.items.map(item => `
+                                        <tr>
+                                            <td>${item.name}</td>
+                                            <td>${item.quantity}</td>
+                                            <td>৳${item.price.toFixed(2)}</td>
+                                            <td>৳${item.total.toFixed(2)}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="order-summary" style="margin-top: 15px;">
+                            <p>Subtotal: ৳${order.subtotal.toFixed(2)}</p>
+                            <p>Tax (5%): ৳${order.tax.toFixed(2)}</p>
+                            <p>Shipping: ৳${order.shipping.toFixed(2)}</p>
+                            <p><strong>Total: ৳${order.total.toFixed(2)}</strong></p>
+                        </div>
+                    </div>
+                `;
+
+                modal.style.display = 'block';
+                console.log(`Order details viewed for order ${orderId}`);
+            } catch (error) {
+                console.error('Error viewing order details:', error);
+                alert('Error viewing order details. Please try again.');
+            }
+        }
+
+        function closeOrderModal() {
+            try {
+                document.getElementById('orderDetailsModal').style.display = 'none';
+                console.log('Order modal closed');
+            } catch (error) {
+                console.error('Error closing order modal:', error);
+            }
+        }
+
+        function viewOrder(orderId) {
+            alert('View order details for #' + orderId + ' - Coming soon!');
+        }
+
+        function updateOrderStatus(orderId) {
+            const status = prompt('Enter new status (Pending/Processing/Shipped/Delivered)');
+            if (status) {
+                alert('Order status updated to: ' + status);
+            }
+        }
+
+        // Users Management
+        function loadUsersList() {
+            try {
+                const tbody = document.getElementById('usersTableBody');
+                const users = JSON.parse(localStorage.getItem('allUsers') || '[]');
+
+                if (users.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6">No users found</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = users.map((user, index) => {
+                    const joinDate = user.joinDate || user.createdAt || null;
+                    return `
+                    <tr data-user-index="${index}">
+                        <td>#${index + 1}</td>
+                        <td>${user.name}</td>
+                        <td>${user.email}</td>
+                        <td>${user.phone || 'N/A'}</td>
+                        <td>${joinDate ? new Date(joinDate).toLocaleDateString() : 'N/A'}</td>
+                        <td>
+                            <button class="btn-sm btn-secondary" onclick="viewUser(${index})">View</button>
+                            <button class="btn-sm btn-danger" onclick="removeUser(${index})">Remove</button>
+                        </td>
+                    </tr>
+                `;
+                }).join('');
+
+                console.log('Users list loaded successfully');
+            } catch (error) {
+                console.error('Error loading users list:', error);
+            }
+        }
+
+        function viewUser(index) {
+            try {
+                const users = JSON.parse(localStorage.getItem('allUsers') || '[]');
+                const user = users[index];
+                if (!user) {
+                    alert('User not found.');
+                    return;
+                }
+
+                const joinDate = user.joinDate || user.createdAt || 'N/A';
+                const formattedDate = joinDate === 'N/A' ? 'N/A' : new Date(joinDate).toLocaleString();
+                const tbody = document.getElementById('usersTableBody');
+                const existingDetailRow = document.getElementById('userDetailRow');
+
+                if (existingDetailRow) {
+                    const previousIndex = Number(existingDetailRow.dataset.userIndex);
+                    const clickedSame = previousIndex === index;
+                    existingDetailRow.remove();
+                    if (clickedSame) {
+                        return;
+                    }
+                }
+
+                const targetRow = tbody.querySelector(`tr[data-user-index="${index}"]`);
+                if (!targetRow) {
+                    alert('Unable to locate user row.');
+                    return;
+                }
+
+                const detailsHtml = `
+                    <div class="user-details-card inline-card">
+                        <div class="detail-row"><span class="detail-label">Name:</span> <span>${user.name}</span></div>
+                        <div class="detail-row"><span class="detail-label">Email:</span> <span>${user.email}</span></div>
+                        <div class="detail-row"><span class="detail-label">Phone:</span> <span>${user.phone || 'N/A'}</span></div>
+                        <div class="detail-row"><span class="detail-label">Join Date:</span> <span>${formattedDate}</span></div>
+                        <div class="detail-row"><span class="detail-label">User ID:</span> <span>${user.id || 'N/A'}</span></div>
+                        <div class="detail-row"><span class="detail-label">Address:</span> <span>${user.address || 'N/A'}</span></div>
+                    </div>
+                `;
+
+                targetRow.insertAdjacentHTML('afterend', `
+                    <tr id="userDetailRow" data-user-index="${index}" class="user-detail-row">
+                        <td colspan="6">${detailsHtml}</td>
+                    </tr>
+                `);
+            } catch (error) {
+                console.error('Error viewing user details:', error);
+                alert('Unable to load user details.');
+            }
+        }
+
+        function closeUserModal() {
+            const userModal = document.getElementById('userDetailsModal');
+            if (userModal) {
+                userModal.style.display = 'none';
+            }
+        }
+
+        function removeUser(index) {
+            if (confirm('Are you sure you want to remove this user?')) {
+                const users = JSON.parse(localStorage.getItem('allUsers') || '[]');
+                users.splice(index, 1);
+                localStorage.setItem('allUsers', JSON.stringify(users));
+                loadUsersList();
+                loadAdminDashboard();
+            }
+        }
+
+        // Load messages list
+        function loadMessagesList() {
+            try {
+                const messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+                const messagesList = document.getElementById('messagesList');
+
+                if (messages.length === 0) {
+                    messagesList.innerHTML = `
+                        <div class="message-item">
+                            <div class="message-header">
+                                <h4>No messages yet</h4>
+                                <span class="message-date">-</span>
+                            </div>
+                            <div class="message-content">
+                                <p>Contact messages from users will appear here.</p>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                messagesList.innerHTML = messages.map(message => `
+                    <div class="message-item ${message.status === 'unread' ? 'unread' : ''}">
+                        <div class="message-header">
+                            <h4>${message.subject}</h4>
+                            <span class="message-date">${new Date(message.date).toLocaleDateString()}</span>
+                        </div>
+                        <div class="message-meta">
+                            <span class="message-from">From: ${message.name} (${message.email})</span>
+                            <span class="message-status status-${message.status}">${message.status}</span>
+                        </div>
+                        <div class="message-content">
+                            <p>${message.message}</p>
+                        </div>
+                        ${message.replies && message.replies.length ? `
+                            <div class="message-thread">
+                                <h5>Conversation</h5>
+                                ${message.replies.map(reply => `
+                                    <div class="reply-item ${reply.from === 'admin' ? 'admin-reply' : 'customer-reply'}">
+                                        <span class="reply-meta">${reply.from === 'admin' ? 'Admin' : 'Customer'} • ${new Date(reply.date).toLocaleDateString()}</span>
+                                        <p>${reply.text}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                        <div class="message-reply-box">
+                            <textarea id="replyText-${message.id}" placeholder="Write a reply..."></textarea>
+                            <button class="btn-small btn-primary" onclick="replyToMessage(${message.id})">Send Reply</button>
+                        </div>
+                        <div class="message-actions">
+                            <button onclick="markMessageRead(${message.id})" class="btn-small">Mark as Read</button>
+                            <button onclick="deleteMessage(${message.id})" class="btn-small btn-danger">Delete</button>
+                        </div>
+                    </div>
+                `).join('');
+
+                console.log('Messages list loaded successfully');
+            } catch (error) {
+                console.error('Error loading messages list:', error);
+            }
+        }
+
+        // Analytics function
+        function loadAnalytics() {
+            try {
+                const orders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+                const users = JSON.parse(localStorage.getItem('allUsers') || '[]');
+
+                // Calculate analytics data
+                const totalOrders = orders.length;
+                const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
+                const totalUsers = users.length;
+
+                // Order status breakdown
+                const statusCounts = {
+                    Pending: 0,
+                    Processing: 0,
+                    Shipped: 0,
+                    Delivered: 0,
+                    Cancelled: 0
+                };
+
+                orders.forEach(order => {
+                    statusCounts[order.status] = (statusCounts[order.status] || 0) + 1;
+                });
+
+                // Update analytics display
+                document.getElementById('analyticsOrders').textContent = totalOrders;
+                document.getElementById('analyticsRevenue').textContent = '৳' + totalRevenue.toLocaleString();
+                document.getElementById('analyticsUsers').textContent = totalUsers;
+
+                // Update status breakdown
+                document.getElementById('pendingOrders').textContent = statusCounts.Pending;
+                document.getElementById('processingOrders').textContent = statusCounts.Processing;
+                document.getElementById('shippedOrders').textContent = statusCounts.Shipped;
+                document.getElementById('deliveredOrders').textContent = statusCounts.Delivered;
+
+                console.log('Analytics loaded successfully');
+            } catch (error) {
+                console.error('Error loading analytics:', error);
+            }
+        }
+
+        function markMessageRead(messageId) {
+            const messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+            const message = messages.find(m => m.id === messageId);
+            if (message) {
+                message.status = 'read';
+                localStorage.setItem('contactMessages', JSON.stringify(messages));
+                loadMessagesList();
+            }
+        }
+
+        function deleteMessage(messageId) {
+            if (!confirm('Are you sure you want to delete this message?')) return;
+
+            const messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+            const updatedMessages = messages.filter(m => m.id !== messageId);
+            localStorage.setItem('contactMessages', JSON.stringify(updatedMessages));
+            loadMessagesList();
+        }
+
+        function replyToMessage(messageId) {
+            const replyTextEl = document.getElementById(`replyText-${messageId}`);
+            if (!replyTextEl) return;
+
+            const replyText = replyTextEl.value.trim();
+            if (!replyText) {
+                alert('Please enter a reply before sending.');
+                return;
+            }
+
+            const messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+            const message = messages.find(m => m.id === messageId);
+            if (!message) {
+                alert('Message not found.');
+                return;
+            }
+
+            message.replies = message.replies || [];
+            message.replies.push({
+                from: 'admin',
+                text: replyText,
+                date: new Date().toISOString()
+            });
+            message.status = 'answered';
+            localStorage.setItem('contactMessages', JSON.stringify(messages));
+
+            replyTextEl.value = '';
+            loadMessagesList();
+            alert('Reply sent to customer successfully.');
+        }
+
+        // WRAPPED THIS ORPHANED CODE INTO A FUNCTION SO IT DOESN'T CRASH THE SCRIPT
+        function loadExtraDashboardStats() {
+            try {
+                const orders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+                const products = (typeof sampleProducts !== 'undefined') ? sampleProducts : [];
+
+                // Top products (Requires an element with id="topProducts" in your HTML to work)
+                const topProductsElement = document.getElementById('topProducts');
+                if(topProductsElement) {
+                    const topProducts = products.slice(0, 5).map(p => `<p>${p.name} - ${p.rating}⭐</p>`).join('');
+                    topProductsElement.innerHTML = topProducts || '<p>No data</p>';
+                }
+
+                // Top categories (Requires an element with id="topCategories" in your HTML to work)
+                const topCategoriesElement = document.getElementById('topCategories');
+                if(topCategoriesElement) {
+                    const categories = {};
+                    products.forEach(p => {
+                        categories[p.category] = (categories[p.category] || 0) + 1;
+                    });
+                    const topCats = Object.entries(categories).map(([cat, count]) => `<p>${cat}: ${count} products</p>`).join('');
+                    topCategoriesElement.innerHTML = topCats || '<p>No data</p>';
+                }
+
+                // Recent orders (Requires an element with id="recentOrders" in your HTML to work)
+                const recentOrdersElement = document.getElementById('recentOrders');
+                if(recentOrdersElement) {
+                    const recent = orders.slice(-5).reverse().map(o => `<p>Order #${o.id} - ৳${o.total}</p>`).join('');
+                    recentOrdersElement.innerHTML = recent || '<p>No recent orders</p>';
+                }
+            } catch(e) {
+                console.error("Error loading extra stats: ", e);
+            }
+        }
+
+        // Settings
+        function saveSettings() {
+            alert('Settings saved successfully!');
+        }
+
+        function resetSettings() {
+            document.getElementById('siteName').value = 'KnowledgePlant';
+            document.getElementById('siteEmail').value = 'admin@knowledgeplant.bd';
+            document.getElementById('sitePhone').value = '2232871262042';
+        }
+
+        // Admin logout
+        function adminLogout() {
+            try {
+                console.log('Logging out admin user...');
+                if (confirm('Are you sure you want to logout?')) {
+                    localStorage.removeItem('currentUser');
+                    console.log('User logged out, redirecting to index.html');
+                    window.location.href = 'index.html';
+                } else {
+                    console.log('Logout cancelled by user');
+                }
+            } catch (error) {
+                console.error('Error during logout:', error);
+                // Fallback logout
+                localStorage.removeItem('currentUser');
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

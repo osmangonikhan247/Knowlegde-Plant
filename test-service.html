@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service Booking Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div style="padding: 50px; text-align: center;">
+        <h1>Service Booking Test</h1>
+        <button onclick="testServiceBooking()" style="padding: 15px 30px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer;">Test Service Booking</button>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function testServiceBooking() {
+            const testProduct = {
+                id: 19,
+                name: 'Decoration Service 1',
+                price: 800,
+                description: 'Professional garden decoration service',
+                image: 'decoration-service 1.jpeg',
+                category: 'Services'
+            };
+            showServiceBookingForm(testProduct);
+        }
+    </script>
+</body>
+</html>

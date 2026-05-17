@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - KnowledgePlant</title>
+    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="icon" href="kp.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+   <header>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo"> 
+                <h1>KnowledgePlant</h1>
+            </div>
+            <nav class="site-links">
+                <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-leaf"></i> Plants <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Plant Categories</h4>
+                            <a href="plant.html">All Plants</a>
+                            <a href="gallery.html?filter=Plants">Indoor Plants</a>
+                            <a href="gallery.html?filter=Plants">Outdoor Plants</a>
+                            <a href="gallery.html?filter=Flowers">Flowers</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-apple-alt"></i> Fruits <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Fruit Categories</h4>
+                            <a href="mango.html">All Fruits</a>
+                            <a href="gallery.html?filter=Fruits">Seasonal Fruits</a>
+                            <a href="gallery.html?filter=Fruits">Tropical Fruits</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-book"></i> Books <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Book Categories</h4>
+                            <a href="gallery.html?filter=Books">Gardening Books</a>
+                            <a href="gallery.html?filter=Books">Educational Books</a>
+                            <a href="gallery.html?filter=Books">Plant Care Guides</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="gallery.html"><i class="fas fa-images"></i> Gallery</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+            </nav>
+            <div class="user-actions">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search for plants, books, fruits...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <a href="signin.html" class="user-link"><i class="fas fa-user"></i> Sign In</a>
+                <a href="billing.html" class="cart-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cartCount" class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Secondary Navigation -->
+        <div class="secondary-nav">
+            <div class="nav-links">
+                <a href="#deals">Today's Deals</a>
+                <a href="#new">New Arrivals</a>
+                <a href="#bestsellers">Best Sellers</a>
+                <a href="#customer-service">Customer Service</a>
+                <a href="#gift-cards">Gift Cards</a>
+                <a href="#sell">Sell</a>
+                <a href="#registry">Registry</a>
+            </div>
+        </div>
+    </div>
+  </header>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Welcome Back</h1>
+                <p>Sign in to your KnowledgePlant account</p>
+            </div>
+            <div class="auth-form">
+                <!-- User Type Selection -->
+                <div class="user-type-selection">
+                    <button type="button" class="user-type-btn active" data-type="customer" onclick="switchUserType('customer')">
+                        <i class="fas fa-shopping-cart"></i> Customer
+                    </button>
+                    <button type="button" class="user-type-btn" data-type="admin" onclick="switchUserType('admin')">
+                        <i class="fas fa-shield-alt"></i> Admin
+                    </button>
+                </div>
+
+                <form id="signinForm">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="auth-btn">Sign In</button>
+                </form>
+
+                <div class="auth-links">
+                    <a href="#" id="forgotPassword">Forgot your password?</a>
+                </div>
+
+                <div class="auth-divider">
+                    <span>or</span>
+                </div>
+
+                <div class="social-auth">
+                    <button class="social-btn google">
+                        <i class="fab fa-google"></i>
+                        Continue with Google
+                    </button>
+                    <button class="social-btn facebook">
+                        <i class="fab fa-facebook-f"></i>
+                        Continue with Facebook
+                    </button>
+                </div>
+
+                <div class="auth-links">
+                    <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+                </div>
+            </div>
+            <div class="auth-footer">
+                <p>By signing in, you agree to our <a href="terms.html">Terms of Service</a> and <a href="privacy.html">Privacy Policy</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let currentUserType = 'customer';
+
+        function switchUserType(type) {
+            currentUserType = type;
+            document.querySelectorAll('.user-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUserNavigation();
+            const signinForm = document.getElementById('signinForm');
+
+            signinForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                if (currentUserType === 'admin') {
+                    // Admin login
+                    handleAdminLogin(email, password);
+                } else {
+                    // Customer login
+                    handleCustomerLogin(email, password);
+                }
+            });
+
+            document.getElementById('forgotPassword').addEventListener('click', function(e) {
+                e.preventDefault();
+                const email = document.getElementById('email').value.trim();
+                if (!email) {
+                    alert('Please enter your email address to reset your password.');
+                    return;
+                }
+                if (resetPasswordViaEmail(email)) {
+                    document.getElementById('password').value = '';
+                }
+            });
+        });
+
+        function handleAdminLogin(email, password) {
+            // Admin credentials (demo - email: admin@knowledgeplant.bd, password: admin123)
+            const adminCredentials = {
+                email: 'admin@knowledgeplant.bd',
+                password: 'admin123'
+            };
+
+            if (email === adminCredentials.email && password === adminCredentials.password) {
+                const adminUser = {
+                    id: 'admin_001',
+                    name: 'Admin User',
+                    email: email,
+                    phone: '01700000000',
+                    joinDate: new Date().toISOString(),
+                    isAdmin: true
+                };
+
+                localStorage.setItem('currentUser', JSON.stringify(adminUser));
+                localStorage.setItem('adminSession', 'active');
+                alert('Admin login successful!');
+                window.location.href = 'admin.html';
+            } else {
+                alert('Invalid admin credentials. Demo: email@knowledgeplant.bd / admin123');
+            }
+        }
+
+        function handleCustomerLogin(email, password) {
+            // Get users from localStorage
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+            // Find user
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                const joinDate = user.joinDate || user.createdAt || new Date().toISOString();
+
+                // Store current user session
+                localStorage.setItem('currentUser', JSON.stringify({
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    phone: user.phone,
+                    joinDate: joinDate,
+                    isAdmin: false
+                }));
+
+                // Store all users for admin access
+                let allUsers = JSON.parse(localStorage.getItem('allUsers') || '[]');
+                const storedUser = {
+                    ...user,
+                    joinDate: joinDate
+                };
+                if (!allUsers.find(u => u.id === user.id)) {
+                    allUsers.push(storedUser);
+                } else {
+                    allUsers = allUsers.map(u => u.id === user.id ? storedUser : u);
+                }
+                localStorage.setItem('allUsers', JSON.stringify(allUsers));
+
+                alert('Sign in successful! Welcome back, ' + user.name);
+                window.location.href = 'index.html';
+            } else {
+                alert('Invalid email or password. Please try again or sign up for a new account.');
+            }
+        }
+    </script>
+    <footer class="footer">
+      <div>
+        <h2>CONTACT US</h2>
+        <p>Aysha Siddika<br>2232871262042<br>ayesha@cse.edu.bd<br>016********</p>
+      </div>
+      <div>
+        <h2>Information</h2>
+        <ul>
+          <li>About Us</li>
+          <li>Privacy Policy</li>
+          <li>Terms & Conditions</li>
+          <li>FAQ</li>
+        </ul>
+      </div>
+      <div>
+        <h2>INFORMATION</h2>
+        <p>We simply love plants and all the benefits they bring to us, our workplace, home, and the environment.</p>
+      </div>
+      <div>
+        <h2>CONNECT WITH US</h2>
+        <p>Bkash, Nagad, Rocket, COD<br>All Banking</p>
+      </div>
+    </footer>
+</body>
+</html>
+

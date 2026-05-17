@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - KnowledgePlant</title>
+    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="icon" href="kp.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+   <header>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo"> 
+                <h1>KnowledgePlant</h1>
+            </div>
+            <nav class="site-links">
+                <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-leaf"></i> Plants <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Plant Categories</h4>
+                            <a href="plant.html">All Plants</a>
+                            <a href="gallery.html?filter=Plants">Indoor Plants</a>
+                            <a href="gallery.html?filter=Plants">Outdoor Plants</a>
+                            <a href="gallery.html?filter=Flowers">Flowers</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-apple-alt"></i> Fruits <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Fruit Categories</h4>
+                            <a href="mango.html">All Fruits</a>
+                            <a href="gallery.html?filter=Fruits">Seasonal Fruits</a>
+                            <a href="gallery.html?filter=Fruits">Tropical Fruits</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-book"></i> Books <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Book Categories</h4>
+                            <a href="gallery.html?filter=Books">Gardening Books</a>
+                            <a href="gallery.html?filter=Books">Educational Books</a>
+                            <a href="gallery.html?filter=Books">Plant Care Guides</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="gallery.html"><i class="fas fa-images"></i> Gallery</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+            </nav>
+            <div class="user-actions">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search for plants, books, fruits...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <a href="signin.html" class="user-link"><i class="fas fa-user"></i> Sign In</a>
+                <a href="billing.html" class="cart-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cartCount" class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Secondary Navigation -->
+        <div class="secondary-nav">
+            <div class="nav-links">
+                <a href="#deals">Today's Deals</a>
+                <a href="#new">New Arrivals</a>
+                <a href="#bestsellers">Best Sellers</a>
+                <a href="#customer-service">Customer Service</a>
+                <a href="#gift-cards">Gift Cards</a>
+                <a href="#sell">Sell</a>
+                <a href="#registry">Registry</a>
+            </div>
+        </div>
+    </div>
+  </header>
+
+    <main>
+        <section class="gallery-hero">
+            <div class="container">
+                <h1>Product Gallery</h1>
+                <p>Explore our complete collection of plants, books, and gardening products</p>
+            </div>
+        </section>
+
+        <section class="gallery-content">
+            <div class="container">
+                
+
+                <div class="gallery-grid" id="galleryGrid">
+                    <!-- Products will be loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+  <footer class="footer">
+    <div>
+      <h2>Contact Us</h2>
+      <p>Aysha Siddika<br>2232871262042<br>ayesha@cse.edu.bd<br>016********</p>
+    </div>
+    <div>
+      <h2>Information</h2>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms & Conditions</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>About Us</h2>
+      <p>We simply love plants and all the benefits they bring to us, our workplace, home, and the environment.</p>
+    </div>
+    <div>
+      <h2>Payment Methods</h2>
+      <p>Bkash, Nagad, Rocket, COD<br>All Banking</p>
+    </div>
+  </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Generate star ratings
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+
+            let stars = '';
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            stars += `<span class="rating-number">(${rating})</span>`;
+            return stars;
+        }
+        // Gallery specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGalleryProducts();
+
+            // Filter functionality
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filter = this.dataset.filter;
+                    filterGallery(filter);
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Check for search results
+            const urlParams = new URLSearchParams(window.location.search);
+            const searchQuery = urlParams.get('search');
+            if (searchQuery) {
+                const searchResults = JSON.parse(localStorage.getItem('searchResults') || '[]');
+                if (searchResults.length > 0) {
+                    displaySearchResults(searchResults, searchQuery);
+                }
+            }
+        });
+
+        function loadGalleryProducts() {
+            const galleryGrid = document.getElementById('galleryGrid');
+            galleryGrid.innerHTML = '';
+
+            sampleProducts.forEach(product => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.dataset.category = product.category;
+                galleryItem.innerHTML = `
+                    <div class="gallery-image">
+                        <img src="${product.image}" alt="${product.name}" loading="lazy">
+                    </div>
+                    <div class="gallery-content">
+                        <h3 class="gallery-title">${product.name}</h3>
+                        <p class="gallery-price">৳ ${product.price}</p>
+                        <div class="gallery-rating">${generateStars(product.rating)}</div>
+                        <div class="gallery-buttons">
+                            <button class="gallery-btn cart-btn" onclick="addToCart(${product.id})">
+                                <i class="fas fa-cart-plus"></i> Add to Cart
+                            </button>
+                            <button class="gallery-btn buy-btn" onclick="buyNow(${product.id})">
+                                <i class="fas fa-bolt"></i> Buy Now
+                            </button>
+                            <a href="product-detail.html?id=${product.id}" class="gallery-btn view-btn">
+                                <i class="fas fa-eye"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                `;
+                galleryGrid.appendChild(galleryItem);
+            });
+        }
+
+        function displaySearchResults(results, query) {
+            const galleryGrid = document.getElementById('galleryGrid');
+            galleryGrid.innerHTML = '';
+
+            // Update page title
+            const heroTitle = document.querySelector('.gallery-hero h1');
+            if (heroTitle) {
+                heroTitle.textContent = `Search Results for "${query}"`;
+            }
+
+            if (results.length === 0) {
+                galleryGrid.innerHTML = '<div class="empty-state">No products found.</div>';
+                return;
+            }
+
+            results.forEach(product => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.dataset.category = product.category;
+                galleryItem.innerHTML = `
+                    <div class="gallery-image">
+                        <img src="${product.image}" alt="${product.name}" loading="lazy">
+                        <div class="gallery-overlay">
+                            <h3>${product.name}</h3>
+                            <p>৳ ${product.price}</p>
+                            <div class="gallery-rating">${generateStars(product.rating)}</div>
+                            <button class="gallery-btn" onclick="addToCart(${product.id})">Add to Cart</button>
+                            <a href="product-detail.html?id=${product.id}" class="gallery-btn view-btn">View Details</a>
+                        </div>
+                    </div>
+                `;
+                galleryGrid.appendChild(galleryItem);
+            });
+        }
+    </script>
+</body>
+</html>

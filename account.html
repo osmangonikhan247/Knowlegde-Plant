@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - KnowledgePlant</title>
+    <link rel="stylesheet" href="style.css?v=6">
+    <link rel="icon" href="kp.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="navbar">
+                <div class="logo">
+                    <h1>KnowledgePlant</h1>
+                </div>
+                <nav class="site-links">
+                    <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle"><i class="fas fa-leaf"></i> Plants <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <div class="dropdown-section">
+                                <h4>Plant Categories</h4>
+                                <a href="plant.html">All Plants</a>
+                                <a href="gallery.html?filter=Plants">Indoor Plants</a>
+                                <a href="gallery.html?filter=Flowers">Flowers</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle"><i class="fas fa-apple-alt"></i> Fruits <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <div class="dropdown-section">
+                                <h4>Fruit Categories</h4>
+                                <a href="mango.html">All Fruits</a>
+                                <a href="gallery.html?filter=Fruits">Seasonal Fruits</a>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="gallery.html"><i class="fas fa-images"></i> Gallery</a>
+                    <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                    <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+                </nav>
+                <div class="user-actions">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search for plants, books, fruits...">
+                        <button id="searchBtn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <a href="signin.html" class="user-link" id="userNavLink"><i class="fas fa-user"></i> Sign In</a>
+                    <a href="billing.html" class="cart-link">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span id="cartCount" class="cart-count">0</span>
+                    </a>
+                </div>
+            </div>
+            <div class="secondary-nav">
+                <div class="nav-links">
+                    <a href="#orders">Orders</a>
+                    <a href="#wishlist">Wishlist</a>
+                    <a href="#settings">Settings</a>
+                    <a href="#help">Help & Support</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="account-hero">
+            <div class="container">
+                <h1>My Account</h1>
+                <p>Manage your profile, orders, and preferences</p>
+            </div>
+        </section>
+
+        <section class="account-content">
+            <div class="container">
+                <div class="account-wrapper">
+                    <!-- Sidebar -->
+                    <aside class="account-sidebar">
+                        <div class="account-menu">
+                            <a href="#profile" class="account-menu-item active" onclick="switchTab('profile')">
+                                <i class="fas fa-user-circle"></i> My Profile
+                            </a>
+                            <a href="#orders" class="account-menu-item" onclick="switchTab('orders')">
+                                <i class="fas fa-box"></i> My Orders
+                            </a>
+                            <a href="#messages" class="account-menu-item" onclick="switchTab('messages')">
+                                <i class="fas fa-envelope"></i> Messages
+                            </a>
+                            <a href="#addresses" class="account-menu-item" onclick="switchTab('addresses')">
+                                <i class="fas fa-map-marker-alt"></i> Addresses
+                            </a>
+                            <a href="#wishlist" class="account-menu-item" onclick="switchTab('wishlist')">
+                                <i class="fas fa-heart"></i> Wishlist
+                            </a>
+                            <a href="#settings" class="account-menu-item" onclick="switchTab('settings')">
+                                <i class="fas fa-cog"></i> Settings
+                            </a>
+                            <a href="#" class="account-menu-item" onclick="signOut()">
+                                <i class="fas fa-sign-out-alt"></i> Sign Out
+                            </a>
+                        </div>
+                    </aside>
+
+                    <!-- Main Content -->
+                    <div class="account-main">
+                        <!-- Profile Tab -->
+                        <div id="profile" class="account-tab active">
+                            <div class="account-section">
+                                <h2>My Profile</h2>
+                                <div class="profile-card">
+                                    <div class="profile-avatar">
+                                        <i class="fas fa-user"></i>
+                                    </div>
+                                    <div class="profile-info">
+                                        <p><strong>Name:</strong> <span id="userName">John Doe</span></p>
+                                        <p><strong>Email:</strong> <span id="userEmail">john@example.com</span></p>
+                                        <p><strong>Phone:</strong> <span id="userPhone">01700000000</span></p>
+                                        <p><strong>Member Since:</strong> <span id="userMemberSince">January 2024</span></p>
+                                    </div>
+                                    <button class="btn-primary" onclick="editProfile()">Edit Profile</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Orders Tab -->
+                        <div id="orders" class="account-tab">
+                            <div class="account-section">
+                                <h2>My Orders</h2>
+                                <div id="ordersList" class="orders-list">
+                                    <div class="empty-state">
+                                        <i class="fas fa-shopping-bag"></i>
+                                        <p>No orders yet. Start shopping!</p>
+                                        <a href="gallery.html" class="btn-primary">Browse Products</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Messages Tab -->
+                        <div id="messages" class="account-tab">
+                            <div class="account-section">
+                                <div class="section-header">
+                                    <h2>Messages</h2>
+                                    <button class="btn-primary" onclick="showNewMessageModal()">New Message</button>
+                                </div>
+                                <div id="messagesList" class="messages-list">
+                                    <div class="empty-state">
+                                        <i class="fas fa-envelope-open-text"></i>
+                                        <p>No messages yet. Send us a message and the admin will reply here.</p>
+                                        <button class="btn-primary" onclick="showNewMessageModal()">Send Message</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Addresses Tab -->
+                        <div id="addresses" class="account-tab">
+                            <div class="account-section">
+                                <h2>Saved Addresses</h2>
+                                <div class="addresses-header">
+                                    <button class="btn-primary" onclick="showAddressModal()">Add New Address</button>
+                                </div>
+                                <div id="addressesList" class="addresses-list">
+                                    <div class="empty-state">
+                                        <i class="fas fa-home"></i>
+                                        <p>No addresses saved yet</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Wishlist Tab -->
+                        <div id="wishlist" class="account-tab">
+                            <div class="account-section">
+                                <h2>My Wishlist</h2>
+                                <div id="wishlistItems" class="wishlist-items">
+                                    <div class="empty-state">
+                                        <i class="fas fa-heart"></i>
+                                        <p>Your wishlist is empty</p>
+                                        <a href="gallery.html" class="btn-primary">Continue Shopping</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Settings Tab -->
+                        <div id="settings" class="account-tab">
+                            <div class="account-section">
+                                <h2>Account Settings</h2>
+                                <div class="settings-form">
+                                    <div class="form-group">
+                                        <label for="notifications">
+                                            <input type="checkbox" id="notifications" checked>
+                                            Receive Email Notifications
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="newsletter">
+                                            <input type="checkbox" id="newsletter" checked>
+                                            Subscribe to Newsletter
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="offers">
+                                            <input type="checkbox" id="offers" checked>
+                                            Receive Special Offers
+                                        </label>
+                                    </div>
+                                    <button class="btn-primary" onclick="changePassword()">Change Password</button>
+                                    <button class="btn-danger" onclick="deleteAccount()">Delete Account</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Address Modal -->
+    <div id="addressModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Address</h3>
+                <span class="close" onclick="closeAddressModal()">&times;</span>
+            </div>
+            <form id="addressForm" class="modal-body">
+                <div class="form-group">
+                    <label for="addressLabel">Address Label</label>
+                    <input type="text" id="addressLabel" placeholder="e.g., Home, Office, Work" required>
+                </div>
+                <div class="form-group">
+                    <label for="street">Street Address</label>
+                    <textarea id="street" placeholder="Street address, building, apartment" required></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" id="city" placeholder="City" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State/Province</label>
+                        <input type="text" id="state" placeholder="State/Province">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="zipcode">ZIP/Postal Code</label>
+                        <input type="text" id="zipcode" placeholder="ZIP/Postal Code">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="Phone number for this address">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeAddressModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Address</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Send a New Message</h3>
+                <span class="close" onclick="closeMessageModal()">&times;</span>
+            </div>
+            <form id="messageForm" class="modal-body">
+                <div class="form-group">
+                    <label for="messageSubject">Subject</label>
+                    <input type="text" id="messageSubject" placeholder="Message subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="messageText">Message</label>
+                    <textarea id="messageText" placeholder="Write your message to the admin" rows="5" required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeMessageModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Send Message</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div id="orderDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Order Details</h3>
+                <span class="close" onclick="closeOrderModal()">&times;</span>
+            </div>
+            <div id="orderDetailsContent" class="modal-body">
+                <!-- Order details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div>
+            <h2>Contact Us</h2>
+            <p>KnowledgePlant<br>Phone: 2232871262042<br>Email: support@knowledgeplant.bd<br>024-XXXXX</p>
+        </div>
+        <div>
+            <h2>Information</h2>
+            <ul>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="privacy.html">Privacy Policy</a></li>
+                <li><a href="terms.html">Terms & Conditions</a></li>
+                <li><a href="faq.html">FAQ</a></li>
+            </ul>
+        </div>
+        <div>
+            <h2>Quick Links</h2>
+            <ul>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="account.html">My Account</a></li>
+                <li><a href="billing.html">Cart</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div>
+            <h2>Payment Methods</h2>
+            <p>Bkash, Nagad, Rocket, COD<br>All Banking</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="account.js"></script>
+</body>
+</html>

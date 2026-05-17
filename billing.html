@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KnowledgePlant - Checkout</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=4">
+  <style>
+    /* ── Variables ───────────────────────────────────── */
+    :root {
+      --green:        #2e9b6e;
+      --green-dark:   #1e7a54;
+      --green-light:  #e8f7f1;
+      --green-mid:    #b3e8d2;
+      --primary:      #2f71f7;
+      --accent:       #42b983;
+      --danger:       #ff5c7a;
+      --bg:           #f4f9f6;
+      --surface:      #ffffff;
+      --surface-alt:  #f6f8ff;
+      --text:         #1a2e45;
+      --muted:        #6b7f99;
+      --border:       #e4edf5;
+      --radius-card:  20px;
+      --radius-inp:   12px;
+      --shadow:       0 2px 18px rgba(30,74,110,0.07);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+    }
+
+    /* ── Checkout Hero ───────────────────────────────── */
+    .checkout-hero {
+      background: linear-gradient(135deg, var(--primary) 0%, #4c86ff 100%);
+      color: white;
+      padding: 52px 20px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .checkout-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.08)"/><circle cx="80" cy="40" r="1" fill="rgba(255,255,255,0.08)"/><circle cx="60" cy="80" r="1.5" fill="rgba(255,255,255,0.08)"/></svg>');
+      pointer-events: none;
+    }
+
+    .checkout-hero h1 {
+      font-family: 'Lora', serif;
+      font-size: 2.6rem;
+      font-weight: 600;
+      margin: 0 0 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .checkout-hero p {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin: 0 auto;
+      max-width: 600px;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Panel Wrapper ───────────────────────────────── */
+    .checkout-outer {
+      max-width: 1160px;
+      margin: -44px auto 60px;
+      padding: 0 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── Two-Column Grid ─────────────────────────────── */
+    .checkout-panel {
+      display: grid;
+      grid-template-columns: 1fr 1.65fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* ── Cards ───────────────────────────────────────── */
+    .kp-card {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--border);
+      padding: 28px 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .kp-card-title {
+      font-family: 'Lora', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text);
+      margin: 0 0 22px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .kp-icon-chip {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--green-light);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .kp-icon-chip svg { width: 14px; height: 14px; }
+
+    /* ── Order Table ─────────────────────────────────── */
+    .cart-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0;
+    }
+
+    .cart-table th {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      padding: 0 0 11px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+
+    .cart-table th:nth-child(2),
+    .cart-table td:nth-child(2) { text-align: center; }
+
+    .cart-table th:nth-child(3),
+    .cart-table td:nth-child(3),
+    .cart-table th:nth-child(4),
+    .cart-table td:nth-child(4) { text-align: right; }
+
+    .cart-table td {
+      padding: 13px 0;
+      border-bottom: 1px solid #f0f5f8;
+      font-size: 0.88rem;
+      color: var(--text);
+      vertical-align: middle;
+    }
+
+    .cart-table tr:last-child td { border-bottom: none; }
+
+    .item-name  { font-weight: 600; font-size: 0.88rem; }
+    .item-price { color: var(--green); font-weight: 700; font-size: 0.88rem; }
+
+    /* ── Totals ──────────────────────────────────────── */
+    .kp-totals {
+      margin-top: 20px;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .kp-total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .kp-total-row .val { color: var(--text); font-weight: 600; }
+
+    .kp-total-row.grand {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+      margin-top: 2px;
+    }
+
+    .kp-total-row.grand .val { color: var(--green); font-size: 1.08rem; }
+
+    /* ── Trust Bar ───────────────────────────────────── */
+    .kp-trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .kp-trust-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.73rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .kp-trust-item svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+    /* ── Shipping Form ───────────────────────────────── */
+    .kp-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .kp-field { display: flex; flex-direction: column; gap: 7px; }
+    .kp-field.full { grid-column: span 2; }
+
+    .kp-label {
+      font-size: 0.79rem;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .kp-label svg { width: 12px; height: 12px; opacity: 0.75; flex-shrink: 0; }
+
+    .kp-input,
+    .kp-textarea {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      color: var(--text);
+      background: #f7fafc;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-inp);
+      padding: 12px 15px;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+
+    .kp-input:focus,
+    .kp-textarea:focus {
+      outline: none;
+      border-color: var(--green);
+      box-shadow: 0 0 0 4px rgba(46,155,110,0.1);
+      background: #fff;
+    }
+
+    .kp-input::placeholder,
+    .kp-textarea::placeholder { color: #b0bec8; }
+
+    .kp-textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.65;
+    }
+
+    /* ── Divider ─────────────────────────────────────── */
+    .kp-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 22px 0;
+    }
+
+    /* ── Submit Button ───────────────────────────────── */
+    .btn-place-order {
+      width: 100%;
+      background: linear-gradient(135deg, #2e9b6e 0%, #25c17a 100%);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 16px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      box-shadow: 0 6px 22px rgba(46,155,110,0.28);
+      letter-spacing: 0.01em;
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+
+    .btn-place-order:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(46,155,110,0.35);
+    }
+
+    .btn-place-order:active { transform: translateY(0); }
+    .btn-place-order svg { width: 18px; height: 18px; }
+
+    .kp-terms {
+      text-align: center;
+      font-size: 0.74rem;
+      color: #9aabbf;
+      margin-top: 14px;
+      line-height: 1.6;
+    }
+
+    .kp-terms a { color: var(--green); text-decoration: none; font-weight: 600; }
+
+    /* ── Invoice Wrapper ─────────────────────────────── */
+    .invoice-area {
+      display: none;
+      margin-top: 36px;
+    }
+
+    .invoice-area.fullpage {
+      position: fixed;
+      inset: 0;
+      background: #f4f9f6;
+      overflow: auto;
+      padding: 32px 20px 40px;
+      z-index: 9999;
+    }
+
+    .invoice-area.fullpage .invoice-sheet {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    body.invoice-active header,
+    body.invoice-active .checkout-hero,
+    body.invoice-active .secondary-nav,
+    body.invoice-active footer,
+    body.invoice-active .footer-bottom {
+      display: none !important;
+    }
+
+    /* action bar above the invoice sheet */
+    .invoice-action-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .print-btn,
+    .download-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 22px;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.88rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .print-btn {
+      background: #fff;
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      box-shadow: 0 2px 8px rgba(30,74,110,0.06);
+    }
+
+    .print-btn:hover { border-color: var(--green); color: var(--green); transform: translateY(-1px); }
+
+    .download-btn {
+      background: linear-gradient(135deg, #2e9b6e 0%, #25c17a 100%);
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(46,155,110,0.25);
+    }
+
+    .download-btn:hover { transform: translateY(-1px); box-shadow: 0 10px 26px rgba(46,155,110,0.32); }
+
+    /* the invoice sheet itself — mimics A4 paper */
+    .invoice-sheet {
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 32px rgba(30,74,110,0.10);
+      overflow: hidden;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    /* ── Invoice Header band ─────────────────────────── */
+    .inv-header {
+      background: linear-gradient(135deg, #1a3a2a 0%, #2e9b6e 100%);
+      padding: 32px 40px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .inv-brand h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: #fff;
+      margin: 0 0 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .inv-brand p {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.8rem;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .inv-badge {
+      text-align: right;
+    }
+
+    .inv-badge .inv-label {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 99px;
+      margin-bottom: 8px;
+    }
+
+    .inv-badge .inv-number {
+      font-family: 'Lora', serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: #fff;
+      display: block;
+    }
+
+    .inv-badge .inv-date-line {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.8rem;
+      margin-top: 4px;
+    }
+
+    /* ── Invoice Body ────────────────────────────────── */
+    .inv-body { padding: 36px 40px; }
+
+    /* status pill */
+    .inv-status-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .inv-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--green-light);
+      color: var(--green-dark);
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .inv-status-pill svg { width: 13px; height: 13px; }
+
+    .inv-status-bar .inv-status-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* bill-to / order-info two-column */
+    .inv-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .inv-meta-block h4 {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin: 0 0 10px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--green-light);
+    }
+
+    .inv-meta-block p {
+      font-size: 0.88rem;
+      color: var(--text);
+      margin: 0 0 5px;
+      line-height: 1.55;
+    }
+
+    .inv-meta-block p span {
+      color: var(--muted);
+      font-size: 0.8rem;
+      display: inline-block;
+      min-width: 80px;
+    }
+
+    /* items table */
+    .invoice-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+    }
+
+    .invoice-table thead tr {
+      background: #f4f9f6;
+    }
+
+    .invoice-table th {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 11px 14px;
+      text-align: left;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .invoice-table th:nth-child(2),
+    .invoice-table td:nth-child(2),
+    .invoice-table th:nth-child(3),
+    .invoice-table td:nth-child(3) { text-align: center; }
+
+    .invoice-table th:last-child,
+    .invoice-table td:last-child { text-align: right; }
+
+    .invoice-table tbody tr:nth-child(even) { background: #fafcfb; }
+
+    .invoice-table td {
+      padding: 13px 14px;
+      font-size: 0.88rem;
+      color: var(--text);
+      border-bottom: 1px solid #f0f5f2;
+    }
+
+    .invoice-table tbody tr:last-child td { border-bottom: none; }
+
+    .inv-item-name  { font-weight: 600; }
+    .inv-item-cat   { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+
+    /* totals block */
+    .inv-totals-wrap {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 8px;
+    }
+
+    .inv-totals {
+      width: 300px;
+      background: #f4f9f6;
+      border-radius: 14px;
+      padding: 20px 22px;
+      border: 1px solid var(--green-mid);
+    }
+
+    .inv-total-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.87rem;
+      color: var(--muted);
+      padding: 5px 0;
+    }
+
+    .inv-total-row .inv-val { color: var(--text); font-weight: 600; }
+
+    .inv-total-row.grand {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-top: 10px;
+      padding-top: 12px;
+      border-top: 2px solid var(--green-mid);
+    }
+
+    .inv-total-row.grand .inv-val { color: var(--green); font-size: 1.1rem; }
+
+    /* ── Invoice Footer band ─────────────────────────── */
+    .inv-footer {
+      background: #f4f9f6;
+      border-top: 1px solid var(--border);
+      padding: 20px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .inv-footer-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .inv-footer-note strong { color: var(--green); }
+
+    .inv-footer-contacts {
+      text-align: right;
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ── Print styles ────────────────────────────────── */
+    @media print {
+      body * { visibility: hidden; }
+      .invoice-sheet, .invoice-sheet * { visibility: visible; }
+      .invoice-sheet {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+      }
+      .invoice-action-bar { display: none !important; }
+    }
+
+    /* old .invoice-actions kept for billing.js compat */
+    .invoice-actions { display: none; }
+
+    /* ── Responsive ──────────────────────────────────── */
+    @media (max-width: 900px) {
+      .checkout-panel { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .kp-form-grid { grid-template-columns: 1fr; }
+      .kp-field.full { grid-column: span 1; }
+      .kp-card { padding: 22px 18px; }
+      .checkout-hero h1 { font-size: 2rem; }
+    }
+  </style>
+
+  <!-- Auth Guard -->
+  <script>
+    (function() {
+      const currentUser = localStorage.getItem('currentUser');
+      if (!currentUser) {
+        alert('Please sign in to access checkout.');
+        window.location.href = 'signin.html';
+        return;
+      }
+      try {
+        const user = JSON.parse(currentUser);
+        if (!user || !user.email) {
+          alert('Please sign in to access checkout.');
+          window.location.href = 'signin.html';
+        }
+      } catch (e) {
+        alert('Please sign in to access checkout.');
+        window.location.href = 'signin.html';
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+       ORIGINAL HEADER — untouched
+  ════════════════════════════════════════════════════ -->
+  <header>
+    <div class="container">
+      <div class="navbar">
+        <div class="logo">
+          <h1>KnowledgePlant</h1>
+        </div>
+        <nav class="site-links">
+          <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+          <div class="dropdown">
+            <a class="dropdown-toggle"><i class="fas fa-leaf"></i> Plants <i class="fas fa-chevron-down"></i></a>
+            <div class="dropdown-content">
+              <div class="dropdown-section">
+                <h4>Plant Categories</h4>
+                <a href="plant.html">All Plants</a>
+                <a href="gallery.html?filter=Plants">Indoor Plants</a>
+                <a href="gallery.html?filter=Plants">Outdoor Plants</a>
+                <a href="gallery.html?filter=Flowers">Flowers</a>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a class="dropdown-toggle"><i class="fas fa-apple-alt"></i> Fruits <i class="fas fa-chevron-down"></i></a>
+            <div class="dropdown-content">
+              <div class="dropdown-section">
+                <h4>Fruit Categories</h4>
+                <a href="mango.html">All Fruits</a>
+                <a href="gallery.html?filter=Fruits">Seasonal Fruits</a>
+                <a href="gallery.html?filter=Fruits">Tropical Fruits</a>
+              </div>
+            </div>
+          </div>
+          <div class="dropdown">
+            <a class="dropdown-toggle"><i class="fas fa-book"></i> Books <i class="fas fa-chevron-down"></i></a>
+            <div class="dropdown-content">
+              <div class="dropdown-section">
+                <h4>Book Categories</h4>
+                <a href="gallery.html?filter=Books">Gardening Books</a>
+                <a href="gallery.html?filter=Books">Educational Books</a>
+                <a href="gallery.html?filter=Books">Plant Care Guides</a>
+              </div>
+            </div>
+          </div>
+          <a href="gallery.html"><i class="fas fa-images"></i> Gallery</a>
+          <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+          <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+        </nav>
+        <div class="user-actions">
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search for plants, books, fruits...">
+            <button id="searchBtn"><i class="fas fa-search"></i></button>
+          </div>
+          <a href="signin.html" class="user-link"><i class="fas fa-user"></i> Sign In</a>
+          <a href="billing.html" class="cart-link"><i class="fas fa-shopping-cart"></i> Cart <span id="cartCount">0</span></a>
+        </div>
+      </div>
+      <div class="secondary-nav">
+        <div class="nav-links">
+          <a href="#deals">Today's Deals</a>
+          <a href="#new">New Arrivals</a>
+          <a href="#bestsellers">Best Sellers</a>
+          <a href="#customer-service">Customer Service</a>
+          <a href="#gift-cards">Gift Cards</a>
+          <a href="#sell">Sell</a>
+          <a href="#registry">Registry</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════
+       MAIN CONTENT
+  ════════════════════════════════════════════════════ -->
+  <main class="page-content">
+
+    <!-- Hero Banner -->
+    <section class="checkout-hero">
+      <h1><i class="fas fa-credit-card"></i> Secure Checkout</h1>
+      <p>Review your selected items, confirm shipping details, and place your order with confidence. Sign in is required to complete your purchase.</p>
+    </section>
+
+    <!-- Panel -->
+    <div class="checkout-outer">
+      <div class="checkout-panel">
+
+        <!-- ── Order Summary ────────────────────────── -->
+        <div class="kp-card">
+          <h2 class="kp-card-title">
+            <span class="kp-icon-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#2e9b6e" stroke-width="2.5">
+                <path d="M6 2 3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <path d="M16 10a4 4 0 01-8 0"/>
+              </svg>
+            </span>
+            Order Summary
+          </h2>
+
+          <table class="cart-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Total</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="cart-items">
+              <tr>
+                <td colspan="5" style="padding:40px;text-align:center;color:#97a2b8;">
+                  Loading cart items...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="kp-totals">
+            <div class="kp-total-row">
+              <span>Subtotal</span>
+              <span class="val" id="subtotal">৳0.00</span>
+            </div>
+            <div class="kp-total-row">
+              <span>Tax (5%)</span>
+              <span class="val" id="tax">৳0.00</span>
+            </div>
+            <div class="kp-total-row">
+              <span>Shipping</span>
+              <span class="val" id="shipping">৳50.00</span>
+            </div>
+            <div class="kp-total-row grand">
+              <span>Grand Total</span>
+              <span class="val" id="total">৳0.00</span>
+            </div>
+          </div>
+
+          <div class="kp-trust">
+            <div class="kp-trust-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#2e9b6e" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+              Secure checkout
+            </div>
+            <div class="kp-trust-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#2e9b6e" stroke-width="2">
+                <polyline points="1 4 1 10 7 10"/>
+                <path d="M3.51 15a9 9 0 102.13-9.36L1 10"/>
+              </svg>
+              Free 7-day returns
+            </div>
+            <div class="kp-trust-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#2e9b6e" stroke-width="2">
+                <rect x="1" y="4" width="22" height="16" rx="2"/>
+                <line x1="1" y1="10" x2="23" y2="10"/>
+              </svg>
+              Bkash · Nagad · COD
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Shipping Form ────────────────────────── -->
+        <div class="kp-card">
+          <h2 class="kp-card-title">
+            <span class="kp-icon-chip">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#2e9b6e" stroke-width="2.5">
+                <rect x="1" y="3" width="15" height="13" rx="1"/>
+                <path d="M16 8h4l3 4v4h-7V8z"/>
+                <circle cx="5.5" cy="18.5" r="2.5"/>
+                <circle cx="18.5" cy="18.5" r="2.5"/>
+              </svg>
+            </span>
+            Shipping Information
+          </h2>
+
+          <form id="checkout-form">
+            <div class="kp-form-grid">
+
+              <div class="kp-field">
+                <label class="kp-label" for="name">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+                  </svg>
+                  Full Name
+                </label>
+                <input class="kp-input" type="text" id="name" required placeholder="Enter your full name">
+              </div>
+
+              <div class="kp-field">
+                <label class="kp-label" for="email">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                  </svg>
+                  Email Address
+                </label>
+                <input class="kp-input" type="email" id="email" required placeholder="Enter your email">
+              </div>
+
+              <div class="kp-field">
+                <label class="kp-label" for="phone">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6 19.8 19.8 0 01-3.1-8.7A2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.9a2 2 0 01-.4 2.1L8.1 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.5c.9.3 1.9.6 2.9.7A2 2 0 0122 16.9z"/>
+                  </svg>
+                  Phone Number
+                </label>
+                <input class="kp-input" type="tel" id="phone" required placeholder="Enter your phone number">
+              </div>
+
+              <div class="kp-field full">
+                <label class="kp-label" for="address">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/>
+                    <circle cx="12" cy="10" r="3"/>
+                  </svg>
+                  Delivery Address
+                </label>
+                <textarea class="kp-textarea" id="address" required placeholder="Enter your complete delivery address"></textarea>
+              </div>
+
+            </div>
+
+            <div class="kp-divider"></div>
+
+            <button type="submit" class="btn-place-order">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M9 12l2 2 4-4"/>
+                <circle cx="12" cy="12" r="10"/>
+              </svg>
+              Place Order
+            </button>
+
+            <p class="kp-terms">
+              By placing your order you agree to our
+              <a href="terms.html">Terms &amp; Conditions</a>.
+              Your data is protected and never shared.
+            </p>
+          </form>
+        </div>
+
+      </div><!-- /.checkout-panel -->
+
+      <!-- ── Invoice Area ─────────────────────────── -->
+      <section id="invoice-area" class="invoice-area">
+
+        <!-- Action bar sits above the sheet -->
+        <div class="invoice-action-bar">
+          <button class="print-btn" type="button" onclick="printInvoice()">
+            <i class="fas fa-print"></i> Print Invoice
+          </button>
+          <button class="download-btn" type="button" onclick="downloadInvoice()">
+            <i class="fas fa-file-download"></i> Download PDF
+          </button>
+        </div>
+
+        <!-- The printable invoice sheet -->
+        <div class="invoice-sheet" id="invoice-sheet">
+
+          <!-- Header band -->
+          <div class="inv-header">
+            <div class="inv-brand">
+              <div class="inv-logo">
+                <h1>🌿 KnowledgePlant</h1>
+                <p class="inv-tagline">Your trusted plant & knowledge store</p>
+              </div>
+              <div class="inv-company-info">
+                <p><strong>KnowledgePlant</strong></p>
+                <p>Mirpur 12 Cantonment, Dhaka 1216</p>
+                <p>Bangladesh</p>
+                <p><i class="fas fa-phone"></i> 016********</p>
+                <p><i class="fas fa-envelope"></i> ayesha@cse.edu.bd</p>
+                <p><i class="fas fa-globe"></i> www.knowledgeplant.com</p>
+              </div>
+            </div>
+            <div class="inv-badge">
+              <div class="inv-type">
+                <h2>INVOICE</h2>
+                <div class="inv-status-badge">PAID</div>
+              </div>
+              <div class="inv-details">
+                <div class="inv-number">
+                  <span class="label">Invoice #</span>
+                  <span class="value" id="order-id">KP-2026-001</span>
+                </div>
+                <div class="inv-date">
+                  <span class="label">Date</span>
+                  <span class="value" id="invoice-date">May 4, 2026</span>
+                </div>
+                <div class="inv-due-date">
+                  <span class="label">Due Date</span>
+                  <span class="value">Cash on Delivery</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="inv-body">
+
+            <!-- Bill To / Ship To -->
+            <div class="inv-address-section">
+              <div class="inv-address-block">
+                <h4><i class="fas fa-user"></i> Bill To</h4>
+                <div class="inv-address-content">
+                  <p class="inv-customer-name" id="customer-name">Customer Name</p>
+                  <p><i class="fas fa-phone"></i> <span id="customer-phone">Phone Number</span></p>
+                  <p><i class="fas fa-envelope"></i> <span id="customer-email">customer@email.com</span></p>
+                  <p><i class="fas fa-map-marker-alt"></i> <span id="customer-address">Delivery Address</span></p>
+                </div>
+              </div>
+              <div class="inv-address-block">
+                <h4><i class="fas fa-truck"></i> Ship To</h4>
+                <div class="inv-address-content">
+                  <p class="inv-customer-name" id="ship-customer-name">Customer Name</p>
+                  <p><i class="fas fa-phone"></i> <span id="ship-customer-phone">Phone Number</span></p>
+                  <p><i class="fas fa-map-marker-alt"></i> <span id="ship-customer-address">Delivery Address</span></p>
+                  <p><i class="fas fa-clock"></i> <span class="delivery-note">Estimated delivery: 2-3 business days</span></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Items table -->
+            <div class="inv-table-section">
+              <h4><i class="fas fa-shopping-cart"></i> Order Items</h4>
+              <table class="invoice-table">
+                <thead>
+                  <tr>
+                    <th class="item-desc">Description</th>
+                    <th class="item-qty">Qty</th>
+                    <th class="item-rate">Rate</th>
+                    <th class="item-amount">Amount</th>
+                  </tr>
+                </thead>
+                <tbody id="invoice-items">
+                  <!-- Items will be populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Totals section -->
+            <div class="inv-totals-section">
+              <div class="inv-totals-table">
+                <div class="inv-total-row">
+                  <span class="label">Subtotal:</span>
+                  <span class="value" id="invoice-subtotal">৳0.00</span>
+                </div>
+                <div class="inv-total-row">
+                  <span class="label">Tax (5%):</span>
+                  <span class="value" id="invoice-tax">৳0.00</span>
+                </div>
+                <div class="inv-total-row">
+                  <span class="label">Shipping:</span>
+                  <span class="value" id="invoice-shipping">৳50.00</span>
+                </div>
+                <div class="inv-total-row grand-total">
+                  <span class="label">Grand Total:</span>
+                  <span class="value" id="invoice-total">৳0.00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment info -->
+            <div class="inv-payment-info">
+              <h4><i class="fas fa-credit-card"></i> Payment Information</h4>
+              <div class="payment-methods">
+                <div class="payment-method">
+                  <i class="fas fa-mobile-alt"></i>
+                  <span>Bkash, Nagad, Rocket</span>
+                </div>
+                <div class="payment-method">
+                  <i class="fas fa-hand-holding-usd"></i>
+                  <span>Cash on Delivery</span>
+                </div>
+                <div class="payment-method">
+                  <i class="fas fa-university"></i>
+                  <span>All Banking Methods</span>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /.inv-body -->
+
+          <!-- Footer band -->
+          <div class="inv-footer">
+            <div class="inv-footer-content">
+              <div class="inv-thanks">
+                <h3>Thank you for your business!</h3>
+                <p>We appreciate your trust in KnowledgePlant. Your order will be processed and delivered with care.</p>
+              </div>
+              <div class="inv-terms">
+                <h4>Terms & Conditions</h4>
+                <ul>
+                  <li>All sales are final. Returns accepted within 7 days for damaged items only.</li>
+                  <li>Plants are guaranteed to arrive in healthy condition.</li>
+                  <li>For any queries, contact us at ayesha@cse.edu.bd or 016********</li>
+                </ul>
+              </div>
+            </div>
+            <div class="inv-footer-signature">
+              <div class="signature-line"></div>
+              <p>Authorized Signature</p>
+              <p class="company-name">KnowledgePlant</p>
+            </div>
+          </div>
+
+        </div><!-- /.invoice-sheet -->
+
+        <!-- hidden div kept for billing.js compat -->
+        <div class="invoice-actions" style="display:none"></div>
+
+      </section>
+
+    </div><!-- /.checkout-outer -->
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════
+       ORIGINAL FOOTER — untouched
+  ════════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div>
+      <h2>Contact Us</h2>
+      <p>Aysha Siddika<br>2232871262042<br>ayesha@cse.edu.bd<br>016********</p>
+    </div>
+    <div>
+      <h2>Information</h2>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms &amp; Conditions</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>About Us</h2>
+      <p>We simply love plants and all the benefits they bring to our home, workplace, and the environment.</p>
+    </div>
+    <div>
+      <h2>Payment Methods</h2>
+      <p>Bkash, Nagad, Rocket, COD<br>All Banking</p>
+    </div>
+  </footer>
+  <div class="footer-bottom">&copy; 2026 KnowledgePlant. Designed for plant lovers.</div>
+
+  <!-- ═══════════════════════════════════════════════════
+       ORIGINAL SCRIPTS — untouched
+  ════════════════════════════════════════════════════ -->
+  <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    if (!window.jspdf && !window.jsPDF) {
+      console.warn('Primary jsPDF CDN failed; loading fallback CDN');
+      const fallbackScript = document.createElement('script');
+      fallbackScript.src = 'https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js';
+      fallbackScript.crossOrigin = 'anonymous';
+      fallbackScript.onload = function() { console.log('jsPDF fallback loaded'); };
+      fallbackScript.onerror = function() { console.error('jsPDF fallback failed to load'); };
+      document.head.appendChild(fallbackScript);
+    }
+  </script>
+  <script src="billing.js"></script>
+  <script>
+    /* Mirror order-id and date into the secondary .inv-ref-* spans in the invoice sheet */
+    (function() {
+      var observer = new MutationObserver(function() {
+        var idEl   = document.getElementById('order-id');
+        var dateEl = document.getElementById('invoice-date');
+        document.querySelectorAll('.inv-ref-id').forEach(function(el) {
+          el.textContent = idEl ? idEl.textContent : '';
+        });
+        document.querySelectorAll('.inv-ref-date').forEach(function(el) {
+          el.textContent = dateEl ? dateEl.textContent : '';
+        });
+      });
+      ['order-id', 'invoice-date'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) observer.observe(el, { childList: true, subtree: true, characterData: true });
+      });
+    })();
+  </script>
+
+</body>
+</html>

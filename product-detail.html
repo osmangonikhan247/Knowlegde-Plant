@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Detail - KnowledgePlant</title>
+  <meta name="description" content="View detailed information about our plants and gardening products.">
+  <link rel="icon" href="kp.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+  <header>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo"> 
+                <h1>KnowledgePlant</h1>
+            </div>
+            <nav class="site-links">
+                <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-leaf"></i> Plants <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Plant Categories</h4>
+                            <a href="plant.html">All Plants</a>
+                            <a href="gallery.html?filter=Plants">Indoor Plants</a>
+                            <a href="gallery.html?filter=Plants">Outdoor Plants</a>
+                            <a href="gallery.html?filter=Flowers">Flowers</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-apple-alt"></i> Fruits <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Fruit Categories</h4>
+                            <a href="mango.html">All Fruits</a>
+                            <a href="gallery.html?filter=Fruits">Seasonal Fruits</a>
+                            <a href="gallery.html?filter=Fruits">Tropical Fruits</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-book"></i> Books <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Book Categories</h4>
+                            <a href="gallery.html?filter=Books">Gardening Books</a>
+                            <a href="gallery.html?filter=Books">Educational Books</a>
+                            <a href="gallery.html?filter=Books">Plant Care Guides</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="gallery.html"><i class="fas fa-images"></i> Gallery</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+            </nav>
+            <div class="user-actions">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search for plants, books, fruits...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <a href="signin.html" class="user-link" id="userNavLink"><i class="fas fa-user"></i> Sign In</a>
+                <a href="billing.html" class="cart-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cartCount" class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Secondary Navigation -->
+        <div class="secondary-nav">
+            <div class="nav-links">
+                <a href="#deals">Today's Deals</a>
+                <a href="#new">New Arrivals</a>
+                <a href="#bestsellers">Best Sellers</a>
+                <a href="#customer-service">Customer Service</a>
+                <a href="#gift-cards">Gift Cards</a>
+                <a href="#sell">Sell</a>
+                <a href="#registry">Registry</a>
+            </div>
+        </div>
+    </div>
+  </header>
+  <main>
+    <div class="product-detail-container">
+      <div class="product-detail">
+        <div class="detail-image-section">
+          <div class="detail-image"></div>
+          <div class="product-gallery"></div>
+        </div>
+        <div class="detail-info">
+          <h1 class="detail-name">Product Name</h1>
+          <div class="detail-rating"></div>
+          <div class="detail-price-section">
+            <p class="detail-price">৳0.00</p>
+            <p class="detail-original-price">৳0.00</p>
+          </div>
+          <p class="detail-description">Product description</p>
+          
+          <div class="product-specs">
+            <h3>Product Details</h3>
+            <div id="productSpecs" class="specs-list">
+              <!-- Filled by JS -->
+            </div>
+          </div>
+
+          <div class="product-quantity">
+            <label for="quantity">Quantity:</label>
+            <select id="quantity">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </select>
+          </div>
+
+          <div class="product-actions">
+            <button class="detail-add-button border">Add To Cart</button>
+            <button class="detail-buy-button border">Buy Now</button>
+            <button class="detail-wishlist-button border"><i class="fas fa-heart"></i> Add to Wishlist</button>
+          </div>
+
+          <div class="delivery-info">
+            <p><i class="fas fa-truck"></i> FREE Delivery</p>
+            <p><i class="fas fa-shield-alt"></i> Quality Guarantee</p>
+            <p><i class="fas fa-sync-alt"></i> Easy Returns</p>
+          </div>
+
+          <a href="#" class="detail-category-link">View more in category</a>
+        </div>
+      </div>
+
+      <!-- Related Products -->
+      <div class="related-products">
+        <h2>Related Products</h2>
+        <div class="related-products-grid" id="relatedProducts">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+
+      <!-- Reviews Section -->
+      <div class="reviews-section">
+        <h2>Customer Reviews</h2>
+        <div id="reviewsList" class="reviews-list">
+          <!-- Filled by JS -->
+        </div>
+        <div class="add-review">
+          <h3>Add Your Review</h3>
+          <form id="reviewForm">
+            <div class="form-group">
+              <label for="reviewRating">Rating:</label>
+              <select id="reviewRating" required>
+                <option value="">Select rating</option>
+                <option value="5">5 Stars - Excellent</option>
+                <option value="4">4 Stars - Good</option>
+                <option value="3">3 Stars - Average</option>
+                <option value="2">2 Stars - Poor</option>
+                <option value="1">1 Star - Very Poor</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="reviewText">Your Review:</label>
+              <textarea id="reviewText" placeholder="Share your thoughts about this product" required></textarea>
+            </div>
+            <button type="submit" class="btn-primary">Submit Review</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div>
+      <h2>Contact Us</h2>
+      <p>Aysha Siddika<br>2232871262042<br>ayesha@cse.edu.bd<br>016********</p>
+    </div>
+    <div>
+      <h2>Information</h2>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms & Conditions</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>About Us</h2>
+      <p>We simply love plants and all the benefits they bring to us, our workplace, home, and the environment.</p>
+    </div>
+    <div>
+      <h2>Payment Methods</h2>
+      <p>Bkash, Nagad, Rocket, COD<br>All Banking</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

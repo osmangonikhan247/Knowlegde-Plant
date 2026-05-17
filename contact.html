@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - KnowledgePlant</title>
+  <meta name="description" content="Get in touch with KnowledgePlant. We're here to help with your plant and gardening needs.">
+  <link rel="icon" href="kp.png" type="image/png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="style.css?v=4">
+</head>
+<body>
+   <header>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo"> 
+                <h1>KnowledgePlant</h1>
+            </div>
+            <nav class="site-links">
+                <a href="index.html" class="active"><i class="fas fa-home"></i> Home</a>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-leaf"></i> Plants <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Plant Categories</h4>
+                            <a href="plant.html">All Plants</a>
+                            <a href="gallery.html?filter=Plants">Indoor Plants</a>
+                            <a href="gallery.html?filter=Plants">Outdoor Plants</a>
+                            <a href="gallery.html?filter=Flowers">Flowers</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-apple-alt"></i> Fruits <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Fruit Categories</h4>
+                            <a href="mango.html">All Fruits</a>
+                            <a href="gallery.html?filter=Fruits">Seasonal Fruits</a>
+                            <a href="gallery.html?filter=Fruits">Tropical Fruits</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle"><i class="fas fa-book"></i> Books <i class="fas fa-chevron-down"></i></a>
+                    <div class="dropdown-content">
+                        <div class="dropdown-section">
+                            <h4>Book Categories</h4>
+                            <a href="gallery.html?filter=Books">Gardening Books</a>
+                            <a href="gallery.html?filter=Books">Educational Books</a>
+                            <a href="gallery.html?filter=Books">Plant Care Guides</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="gallery.html"><i class="fas fa-images"></i> Gallery</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+            </nav>
+            <div class="user-actions">
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search for plants, books, fruits...">
+                    <button id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+                <a href="signin.html" class="user-link"><i class="fas fa-user"></i> Sign In</a>
+                <a href="billing.html" class="cart-link">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cartCount" class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Secondary Navigation -->
+        <div class="secondary-nav">
+            <div class="nav-links">
+                <a href="#deals">Today's Deals</a>
+                <a href="#new">New Arrivals</a>
+                <a href="#bestsellers">Best Sellers</a>
+                <a href="#customer-service">Customer Service</a>
+                <a href="#gift-cards">Gift Cards</a>
+                <a href="#sell">Sell</a>
+                <a href="#registry">Registry</a>
+            </div>
+        </div>
+    </div>
+  </header>
+  <main>
+    <section class="contact-hero">
+      <h1>Contact Us</h1>
+      <p>We'd love to hear from you. Get in touch with our team.</p>
+    </section>
+
+    <section class="contact-content">
+      <div class="contact-info">
+        <h2>Get In Touch</h2>
+        <div class="contact-details">
+          <div class="contact-item">
+            <i class="fas fa-phone"></i>
+            <div>
+              <h3>Phone</h3>
+              <p>016********</p>
+              <p>01715093313</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-envelope"></i>
+            <div>
+              <h3>Email</h3>
+              <p>ayesha@cse.edu.bd</p>
+              <p>sales@bonayon.com</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-map-marker-alt"></i>
+            <div>
+              <h3>Address</h3>
+              <p>Mirpur 12 Cantonment, Dhaka 1216, Bangladesh</p>
+              <p>Production Center: Mymenshingh & Savar</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <i class="fas fa-clock"></i>
+            <div>
+              <h3>Business Hours</h3>
+              <p>Monday - Saturday: 9:00 AM - 6:00 PM</p>
+              <p>Sunday: Closed</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <h2>Send us a Message</h2>
+        <form id="contact-form">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required>
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" required>
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="contact-submit">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="map-section">
+      <h2>Find Us</h2>
+      <div class="map-container">
+        <!-- Placeholder for map -->
+        <div class="map-placeholder">
+          <i class="fas fa-map-marked-alt"></i>
+          <p>Interactive map would be embedded here</p>
+          <p>Mirpur 12 Cantonment, Dhaka 1216, Bangladesh</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>
+      <h2>Contact Us</h2>
+      <p>Aysha Siddika<br>2232871262042<br>ayesha@cse.edu.bd<br>016********</p>
+    </div>
+    <div>
+      <h2>Information</h2>
+      <ul>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="terms.html">Terms & Conditions</a></li>
+        <li><a href="faq.html">FAQ</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>About Us</h2>
+      <p>We simply love plants and all the benefits they bring to us, our workplace, home, and the environment.</p>
+    </div>
+    <div>
+      <h2>Payment Methods</h2>
+      <p>Bkash, Nagad, Rocket, COD<br>All Banking</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const subject = document.getElementById('subject').value;
+      const message = document.getElementById('message').value;
+
+      // Create message object
+      const contactMessage = {
+        id: Date.now(),
+        name: name,
+        email: email,
+        subject: subject,
+        message: message,
+        date: new Date().toISOString(),
+        status: 'unread',
+        replies: []
+      };
+
+      // Save to localStorage
+      const messages = JSON.parse(localStorage.getItem('contactMessages') || '[]');
+      messages.push(contactMessage);
+      localStorage.setItem('contactMessages', JSON.stringify(messages));
+
+      alert('Thank you for your message! We will get back to you soon.');
+      this.reset();
+    });
+  </script>
+</body>
+</html>
